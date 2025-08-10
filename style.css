@@ -80,7 +80,8 @@ nav .cta:hover {
   position: relative;
   padding: 120px 10%;
       /* Use a truck image with dark overlay for the hero background */
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('images/truck_hero.png');
+      /* Images live in repository root, adjust path */
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('truck_hero.png');
       background-size: cover;
       background-position: center;
   overflow: hidden;
@@ -357,7 +358,7 @@ footer a:hover {
 
     /* Display avatar backgrounds for testimonials */
     .testimonial:nth-child(1) {
-      background-image: url('images/testimonial1.png');
+      background-image: url('testimonial1.png');
       background-size: 60px 60px;
       background-repeat: no-repeat;
       background-position: 20px 20px;
@@ -365,7 +366,7 @@ footer a:hover {
       min-height: 100px;
     }
     .testimonial:nth-child(2) {
-      background-image: url('images/testimonial2.png');
+      background-image: url('testimonial2.png');
       background-size: 60px 60px;
       background-repeat: no-repeat;
       background-position: 20px 20px;
@@ -373,7 +374,7 @@ footer a:hover {
       min-height: 100px;
     }
     .testimonial:nth-child(3) {
-      background-image: url('images/testimonial3.png');
+      background-image: url('testimonial3.png');
       background-size: 60px 60px;
       background-repeat: no-repeat;
       background-position: 20px 20px;
