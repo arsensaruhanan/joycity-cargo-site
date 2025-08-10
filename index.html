@@ -9,7 +9,7 @@
 <body>
   <!-- Навигация -->
   <!-- Updated navigation with anchor links to sections -->
-  <nav>
+      <nav>
     <a href="#top" class="logo">JOY Cargo</a>
     <ul>
       <li><a href="#top" class="active">Главная</a></li>
@@ -19,6 +19,18 @@
     </ul>
     <a href="https://t.me/Artakchina" class="cta" target="_blank">Личный кабинет</a>
   </nav>
+
+      <!-- Promo modal for special offer -->
+      <div id="promo-modal" class="modal hidden">
+        <div class="modal-content">
+          <h2>Скидка 20% на доставку!</h2>
+          <p>Оформите заявку в течение следующего часа и получите скидку 20% на услуги перевозки.</p>
+          <div class="modal-timer">
+            <span id="modal-countdown">01:00:00</span>
+          </div>
+          <button id="close-modal" class="button">Закрыть</button>
+        </div>
+      </div>
 
   <!-- Special offer countdown timer -->
   <div id="special-offer" class="special-offer">
@@ -217,7 +229,7 @@
     <img src="images/globe.jpg" alt="Глобус" class="globe">
   </section>
 
-  <footer>
+       <footer>
     <p>© 2025 JOY Cargo. Все права защищены.</p>
     <p>
       <a href="https://t.me/Artakchina" target="_blank">@Artakchina</a> |
@@ -225,5 +237,76 @@
       <a href="https://t.me/joycitychina" target="_blank">Наш канал</a>
     </p>
   </footer>
+
+      <!-- JavaScript for countdown, modal and currency rates -->
+      <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const promoModal = document.getElementById('promo-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalCountdownEl = document.getElementById('modal-countdown');
+        const topCountdownEl = document.getElementById('countdown');
+        const specialOfferBar = document.getElementById('special-offer');
+
+        // Initial remaining time in seconds (1 hour)
+        let remainingSeconds = 3600;
+
+        // Show modal on page load
+        if (promoModal) {
+          promoModal.classList.remove('hidden');
+        }
+
+        // Countdown update function
+        function updateCountdown() {
+          if (remainingSeconds < 0) {
+            // Hide modal and special offer when time is up
+            if (promoModal && !promoModal.classList.contains('hidden')) {
+              promoModal.classList.add('hidden');
+            }
+            if (specialOfferBar) {
+              specialOfferBar.style.display = 'none';
+            }
+            clearInterval(intervalId);
+            return;
+          }
+          const hrs = Math.floor(remainingSeconds / 3600);
+          const mins = Math.floor((remainingSeconds % 3600) / 60);
+          const secs = remainingSeconds % 60;
+          const formatted = [hrs, mins, secs].map(n => String(n).padStart(2, '0')).join(':');
+          if (modalCountdownEl) modalCountdownEl.textContent = formatted;
+          if (topCountdownEl) topCountdownEl.textContent = formatted;
+          remainingSeconds--;
+        }
+        const intervalId = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Close modal on click
+        if (closeModal) {
+          closeModal.addEventListener('click', function () {
+            promoModal.classList.add('hidden');
+          });
+        }
+
+        // Function to fetch currency rates
+        async function fetchRates() {
+          try {
+            const usdRes = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB');
+            const usdData = await usdRes.json();
+            const cnyRes = await fetch('https://api.exchangerate.host/latest?base=CNY&symbols=RUB');
+            const cnyData = await cnyRes.json();
+            if (usdData && usdData.rates && usdData.rates.RUB) {
+              document.getElementById('usd-rate').textContent = usdData.rates.RUB.toFixed(2);
+            }
+            if (cnyData && cnyData.rates && cnyData.rates.RUB) {
+              document.getElementById('cny-rate').textContent = cnyData.rates.RUB.toFixed(2);
+            }
+          } catch (err) {
+            console.error('Unable to fetch rates', err);
+          }
+        }
+        // Fetch rates initially and then every 5 minutes
+        fetchRates();
+        setInterval(fetchRates, 300000);
+      });
+      </script>
 </body>
 </html>
